@@ -179,6 +179,17 @@ type (
 			AlsoAlbums   int `json:"alsoAlbums"`
 			AlsoTracks   int `json:"alsoTracks"`
 		} `json:"counts"`
+		Ratings struct {
+			Day   int `json:"day"`
+			Week  int `json:"week"`
+			Month int `json:"month"`
+		} `json:"ratings,omitempty"`
+		Links []struct {
+			Title         string `json:"title"`
+			Href          string `json:"href"`
+			Type          string `json:"type"`
+			SocialNetwork string `json:"socialNetwork,omitempty"`
+		} `json:"links"`
 		PopularTracks []struct {
 			ID             int           `json:"id"`
 			DurationMs     int           `json:"durationMs"`
