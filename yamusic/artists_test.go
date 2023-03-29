@@ -34,3 +34,28 @@ func TestArtistsService_GetDirectAlbums(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, want.InvocationInfo.ReqID, result.InvocationInfo.ReqID)
 }
+
+func TestArtistsService_GetBriefInfo(t *testing.T) {
+	setup()
+	defer teardown()
+
+	want := &AlbumsResp{}
+	want.InvocationInfo.ReqID = "Artists.BriefInfo"
+	artistID := 100
+
+	mux.HandleFunc(
+		fmt.Sprintf("/artists/%v/brief-info", artistID),
+		func(w http.ResponseWriter, r *http.Request) {
+			assert.Equal(t, http.MethodGet, r.Method)
+			assert.Equal(t, "OAuth "+accessToken, r.Header.Get("Authorization"))
+			b, err := json.Marshal(want)
+			assert.NoError(t, err)
+			fmt.Fprint(w, string(b))
+		},
+	)
+
+	result, _, err := client.Artists().GetBriefInfo(context.Background(), artistID)
+
+	assert.NoError(t, err)
+	assert.Equal(t, want.InvocationInfo.ReqID, result.InvocationInfo.ReqID)
+}
