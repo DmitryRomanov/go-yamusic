@@ -100,7 +100,16 @@ func (t *TracksService) GetDownloadInfo(ctx context.Context, id int) (*DownloadI
 		return nil, nil, ErrZeroResultLen
 	}
 
-	req, err := t.client.NewRequest(http.MethodGet, dlInfoResp.Result[0].DownloadInfoURL, nil)
+	mp3Result := 0
+
+	for i, info := range dlInfoResp.Result {
+		if info.Codec == "mp3" {
+			mp3Result = i
+			break
+		}
+	}
+
+	req, err := t.client.NewRequest(http.MethodGet, dlInfoResp.Result[mp3Result].DownloadInfoURL, nil)
 	if err != nil {
 		return nil, nil, err
 	}
