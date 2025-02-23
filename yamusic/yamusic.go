@@ -41,6 +41,7 @@ type (
 		playlists *PlaylistsService
 		tracks    *TracksService
 		artists   *ArtistsService
+		albums    *AlbumsService
 	}
 )
 
@@ -67,6 +68,7 @@ func NewClient(options ...func(*Client)) *Client {
 	c.playlists = &PlaylistsService{client: c}
 	c.tracks = &TracksService{client: c}
 	c.artists = &ArtistsService{client: c}
+	c.albums = &AlbumsService{client: c}
 
 	return c
 }
@@ -241,6 +243,11 @@ func (c *Client) Tracks() *TracksService {
 // Artists returns arists service
 func (c *Client) Artists() *ArtistsService {
 	return c.artists
+}
+
+// Tracks returns feed service
+func (c *Client) Albums() *AlbumsService {
+	return c.albums
 }
 
 // General types
